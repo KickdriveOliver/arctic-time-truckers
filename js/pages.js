@@ -156,10 +156,14 @@ function renderLayout(content, currentPage) {
                                 <span class="text-amber-300">•</span>
                                 <a href="${createPageUrl('PrivacyPolicy')}" class="hover:underline">${getText('legal.privacy')}</a>
                                 <span class="text-amber-300">•</span>
-                                <span class="flex items-center gap-1 opacity-60 hover:opacity-100 transition-opacity cursor-default" title="Meow!">
+                                <a href="https://github.com/KickdriveOliver/arctic-time-truckers"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="flex items-center gap-1 opacity-60 hover:opacity-100 transition-opacity"
+                                   title="Open-source cat magic on GitHub">
                                     ${icons.paw.replace('h-6 w-6', 'h-3 w-3 text-amber-500')}
-                                    <span>Made with purrs</span>
-                                </span>
+                                    <span>Made with purrs · Get the source</span>
+                                </a>
                             </div>
                             <p class="opacity-70">© ${new Date().getFullYear()} ${getText('app.name')} ${getText('legal.rights')}</p>
                         </div>
