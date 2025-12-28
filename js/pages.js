@@ -369,8 +369,45 @@ function renderTimer() {
                                                 ${formatDuration(entriesByDate[date].total)}
                                             </div>
                                         </div>
-                                        
-                                        <div class="overflow-x-auto">
+
+                                        <!-- Mobile cards -->
+                                        <div class="sm:hidden space-y-2">
+                                            ${entriesByDate[date].entries.map(entry => {
+                                                const projectName = entry.project?.name || getText('common.unknownRoute');
+                                                const projectColor = entry.project?.color || '#f59e0b';
+                                                const startTime = formatTime(entry.start_time);
+                                                const endTime = formatTime(entry.end_time);
+                                                const duration = formatDuration(entry.duration_minutes);
+                                                const description = entry.description || getText('common.noCargoDetails');
+                                                return `
+                                                    <div class="p-3 rounded-lg border border-amber-200 bg-white/80">
+                                                        <div class="flex items-start justify-between gap-3">
+                                                            <div class="min-w-0">
+                                                                <div class="flex items-center gap-2">
+                                                                    <div class="w-2 h-2 rounded-full flex-none" style="background-color: ${projectColor}"></div>
+                                                                    <div class="font-medium text-amber-900 truncate">${escapeHtml(projectName)}</div>
+                                                                </div>
+                                                                <div class="mt-1 text-xs text-amber-700">${startTime} – ${endTime} • <span class="font-semibold text-amber-900">${duration}</span></div>
+                                                            </div>
+                                                            <div class="flex gap-2 flex-none">
+                                                                <button onclick="showEditTimeEntryDialog('${entry.time_entry_id}')" 
+                                                                        class="p-2 rounded hover:bg-amber-100 text-amber-600" title="Edit">
+                                                                    ${icons.edit}
+                                                                </button>
+                                                                <button onclick="handleDeleteTimeEntry('${entry.time_entry_id}')" 
+                                                                        class="p-2 rounded hover:bg-red-100 text-red-600" title="Delete">
+                                                                    ${icons.trash}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-2 text-sm text-amber-600 break-words">${escapeHtml(description)}</div>
+                                                    </div>
+                                                `;
+                                            }).join('')}
+                                        </div>
+
+                                        <!-- Desktop table -->
+                                        <div class="hidden sm:block overflow-x-auto">
                                             <table class="w-full">
                                                 <thead class="bg-amber-100/80">
                                                     <tr>
