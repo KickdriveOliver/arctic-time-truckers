@@ -31,6 +31,10 @@ Inspired by the real-life Pringles (pictured above), a cat who allegedly abandon
 3. Alternatively, upload the files to any standard web server - no build steps or backend required.
 4. Start trucking!
 
+## About the prototype
+
+This project was first created as a [base44](https://base44.com) prototype (sources in [base44 prototype source](./_base44-prototype-app-src/)), then migrated to a purely offline version using some cats, Github Copilot + Claude 4.5 Opus, GPT 5.2 and Gemini 3 Pro. 
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
