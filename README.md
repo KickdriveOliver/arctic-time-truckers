@@ -1,4 +1,4 @@
-# Pringles' Arctic Time Trucking Co. 🚛❄️🐱
+# Arctic Time Trucking Co. 🚛❄️🐱
 
 > "Time waits for no cat, especially when they're upside down" - Pringles, Arctic Route Veteran
 
@@ -8,7 +8,7 @@
 
 Welcome to **Pringles' Arctic Time Trucking Co.**! This is a fun, non-commercial software engineering experiment designed to track time in the most purr-fessional way possible.
 
-Inspired by the real-life Pringles (pictured above), a cat who allegedly abandoned a promising career in professional gymnastics to haul cargo across the frozen tundra. Or maybe he just likes napping on the sofa. We may never know the truth.
+Inspired by our real-life Pringles (pictured above), a cat who allegedly abandoned a promising career in professional gymnastics to haul cargo across the frozen tundra. Or maybe he just likes napping on the sofa. We may never know the truth.
 
 ## Features
 
@@ -37,7 +37,7 @@ This project was first created as a [base44](https://base44.com) prototype (sour
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the CC0 1.0 Universal License - see the [LICENSE](LICENSE) file for details.
 
 ## Author
 

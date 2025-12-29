@@ -4,8 +4,8 @@
 
 const en = {
   app: {
-    name: "Pringles' Arctic Time Trucking Co.",
-    shortName: "Pringles' Time Co.",
+    name: "Arctic Time Trucking Co.",
+    shortName: "Arctic Time Co.",
     status: "Arctic Route Status: Purr-fectly Grumpy"
   },
   welcome: {
@@ -36,7 +36,7 @@ const en = {
   legal: {
     imprint: "Imprint",
     privacy: "Privacy Policy",
-    rights: "All rights reserved, even the right to nap."
+    rights: "All rights to napping reserved."
   },
   imprint: {
     title: "Imprint",
@@ -510,8 +510,8 @@ const en = {
 // Finnish translations
 const fi = {
   app: {
-    name: "Pringles Arktinen Kuljetusaika Oy",
-    shortName: "Pringles Aika Oy",
+    name: "Arktinen Kuljetusaika Oy",
+    shortName: "Arktinen Aika Oy",
     status: "Arktinen reittitilanne: Täydellisen Äreä"
   },
   welcome: {
@@ -542,7 +542,7 @@ const fi = {
   legal: {
     imprint: "Impressum",
     privacy: "Tietosuoja",
-    rights: "Kaikki oikeudet pidätetään, myös oikeus nokosiin."
+    rights: "Kaikki oikeudet torkkumiseen pidätetään."
   },
   imprint: {
     title: "Impressum",
@@ -1016,8 +1016,8 @@ const fi = {
 // German translations
 const de = {
   app: {
-    name: "Pringles' Arktische Zeit‑Trucking GmbH",
-    shortName: "Pringles Time GmbH",
+    name: "Arktische Zeit‑Trucking GmbH",
+    shortName: "Artische Zeit GmbH",
     status: "Arktischer Routenstatus: Perfekt mürrisch"
   },
   welcome: {
@@ -1048,7 +1048,7 @@ const de = {
   legal: {
     imprint: "Impressum",
     privacy: "Datenschutz",
-    rights: "Alle Rechte vorbehalten, auch das Recht auf ein Nickerchen."
+    rights: "Alle Rechte am Nickerchen vorbehalten."
   },
   imprint: {
     title: "Impressum",

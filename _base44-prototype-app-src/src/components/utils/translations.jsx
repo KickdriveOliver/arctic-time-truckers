@@ -1,8 +1,8 @@
 // English translations
 export const en = {
   app: {
-    name: "Pringles' Arctic Time Trucking Co.",
-    shortName: "Pringles' Time Co.",
+    name: "Arctic Time Trucking Co.",
+    shortName: "Time Trucking Co.",
     status: "Arctic Route Status: Purr-fectly Grumpy"
   },
   welcome: {
@@ -33,7 +33,7 @@ export const en = {
   legal: {
     imprint: "Imprint",
     privacy: "Privacy Policy",
-    rights: "All rights reserved, even the right to nap."
+    rights: "All rights to napping reserved.."
   },
   imprint: {
     title: "Imprint",
@@ -531,7 +531,7 @@ export const fi = {
   legal: {
     imprint: "Impressum",
     privacy: "Tietosuoja",
-    rights: "Kaikki oikeudet pidätetään, myös oikeus nokosiin."
+    rights: "Kaikki oikeudet torkkumiseen pidätetään."
   },
   imprint: {
     title: "Impressum",
@@ -1029,7 +1029,7 @@ export const de = {
   legal: {
     imprint: "Impressum",
     privacy: "Datenschutz",
-    rights: "Alle Rechte vorbehalten, auch das Recht auf ein Nickerchen."
+    rights: "Alle Rechte am Nickerchen vorbehalten."
   },
   imprint: {
     title: "Impressum",
