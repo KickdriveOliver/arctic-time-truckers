@@ -3,18 +3,18 @@
 // ========================================
 
 // Default avatar URL
-const DEFAULT_AVATAR = "assets/1-pringles-ice-road-specialist.jpg";
+const DEFAULT_AVATAR = "/assets/1-pringles-ice-road-specialist.jpg";
 
 // Avatar options for selection
 const AVATAR_OPTIONS = [
     DEFAULT_AVATAR,
-    "assets/2-aurora-purple-navigator.jpg",
-    "assets/3-fluffy-snow-specialist.jpg",
-    "assets/4-gray-night-professional.jpg",
-    "assets/5-skittles-siamese-compass.jpg",
-    "assets/6-orange-tabby-junior-driver.jpg",
-    "assets/7-maine-coon-northern-expert.jpg",
-	"assets/8-tuxedo-long-haul-professional.jpg"
+    "/assets/2-aurora-purple-navigator.jpg",
+    "/assets/3-fluffy-snow-specialist.jpg",
+    "/assets/4-gray-night-professional.jpg",
+    "/assets/5-skittles-siamese-compass.jpg",
+    "/assets/6-orange-tabby-junior-driver.jpg",
+    "/assets/7-maine-coon-northern-expert.jpg",
+	"/assets/8-tuxedo-long-haul-professional.jpg"
 ];
 
 

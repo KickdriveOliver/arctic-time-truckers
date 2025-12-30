@@ -912,7 +912,7 @@ function renderGuide() {
                 ${activeTab === 'story' ? `
                 <div class="max-w-3xl mx-auto mb-6">
                     <img
-                        src="assets/cat_truck_stop.jpg"
+                        src="/assets/cat_truck_stop.jpg"
                         alt="${getText('guide.partyCaption')}"
                         class="rounded-xl shadow-lg border-4 border-amber-200 w-full object-cover"
                     />
@@ -960,7 +960,7 @@ function renderGuideStorySection(activeTab) {
                 </div>
                 <div class="relative">
                     <img
-                        src="assets/arctic_diner.jpg"
+                        src="/assets/arctic_diner.jpg"
                         alt="${getText('guide.story.dinerCaption')}"
                         class="rounded-2xl shadow-xl border-4 border-amber-100 w-full object-cover"
                     />
@@ -971,7 +971,7 @@ function renderGuideStorySection(activeTab) {
             </div>
             <div class="bg-white/80 border border-amber-200 rounded-2xl p-6 shadow">
                 <div class="flex flex-col sm:flex-row gap-4 items-center">
-                    <img src="assets/pringles.jpg"
+                    <img src="/assets/pringles.jpg"
                          alt="Pringles"
                          class="w-20 h-20 rounded-full object-cover border-4 border-amber-200" />
                     <div>
@@ -992,7 +992,7 @@ function renderGuideStorySection(activeTab) {
                             </div>
                         </div>
                         <audio controls class="w-full h-10 rounded-lg">
-                            <source src="assets/The%20Pringlettes%20-%20Pringles%20the%20Arctic%20Cat.mp3" type="audio/mpeg">
+                            <source src="/assets/The%20Pringlettes%20-%20Pringles%20the%20Arctic%20Cat.mp3" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
                         <p class="text-[10px] text-center text-amber-400 uppercase tracking-widest font-bold">${getText('guide.anthem.caption')}</p>
