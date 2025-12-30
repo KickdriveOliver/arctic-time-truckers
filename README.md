@@ -22,7 +22,7 @@ Inspired by our real-life Pringles (pictured above), a cat who allegedly abandon
 
 - **Vanilla JavaScript**: No frameworks, just pure JS modules.
 - **Tailwind CSS**: Precompiled and included as `tailwind.css` (no CDN dependency).
-- **IndexedDB**: For robust local data storage.
+- **JS localStorage**: For no-cloud, device-only local data storage.
 
 ## Installation / Usage
 
