@@ -31,6 +31,12 @@ Inspired by our real-life Pringles (pictured above), a cat who allegedly abandon
 3. Alternatively, upload the files to any standard web server - no build steps or backend required.
 4. Start trucking!
 
+## Mobile use
+
+1. Go to Pringles' arctic trucking portal at [www.arctictime.de](https://www.arctictime.de)
+2. On Android/Chrome, it will ask you to install it as an app.
+3. Once installed, you can use the app icon to run it fully offline / without Internet connection.
+
 ## About the prototype
 
 This project was first created as a [base44](https://base44.com) prototype (sources in [base44 prototype source](./_base44-prototype-app-src/)), then migrated to a purely offline version using some cats, Github Copilot + Claude 4.5 Opus, GPT 5.2 and Gemini 3 Pro. 
