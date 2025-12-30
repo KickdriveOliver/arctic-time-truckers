@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arctic Time Trucking Co.</title>
     <link rel="icon" href="favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png"> 
-    <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+    <link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+    <link rel="apple-touch-icon" href="assets/icon-192.png" sizes="192x192">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#d97706">
     <link href="tailwind.css" rel="stylesheet">
@@ -93,7 +93,7 @@
 <script> 
     if ("serviceWorker" in navigator) 
     { window.addEventListener("load", () => { 
-        navigator.serviceWorker.register("/sw.js");
+        navigator.serviceWorker.register("js/sw.js");
     });
     } 
 </script>
