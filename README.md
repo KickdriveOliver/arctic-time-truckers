@@ -35,6 +35,10 @@ Inspired by our real-life Pringles (pictured above), a cat who allegedly abandon
 
 This project was first created as a [base44](https://base44.com) prototype (sources in [base44 prototype source](./_base44-prototype-app-src/)), then migrated to a purely offline version using some cats, Github Copilot + Claude 4.5 Opus, GPT 5.2 and Gemini 3 Pro. 
 
+See also the related blog post 
+[Cat-Based Coding in 2025 – Can I Haz the Solution?](https://talktomachines.blogspot.com/2025/12/cat-based-coding-in-2025-can-i-haz.html)
+
+
 ## License
 
 This project is licensed under the CC0 1.0 Universal License - see the [LICENSE](LICENSE) file for details.
