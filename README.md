@@ -14,7 +14,7 @@ Inspired by our real-life Pringles (pictured above), a cat who allegedly abandon
 
 - **Time Tracking**: Log your hours on the ice roads (or at your desk).
 - **Project Management**: Organize your deliveries (tasks) by client.
-- **Offline First**: Uses your browser's LocalStorage and IndexedDB. No cloud, no tracking, just you and the open road.
+- **Offline First**: Uses your browser's localStorage. No cloud, no tracking, just you and the open road.
 - **Cat-Themed UI**: Because everything is better with paws.
 - **Multi-Language Support**: English, German, and Finnish (for those authentic arctic vibes).
 
