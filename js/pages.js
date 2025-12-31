@@ -18,11 +18,16 @@ function renderWelcomeScreen() {
                 <h1 class="text-4xl font-bold text-amber-900 mb-2">${getText('welcome.title')}</h1>
                 <p class="text-amber-700 text-lg mb-4">${getText('welcome.subtitle')}</p>
 
-                <div class="mb-8">
+                <div class="mb-8 flex flex-wrap justify-center gap-3">
                     <a href="${createPageUrl('Guide')}" 
                        class="inline-flex items-center justify-center px-4 py-2 bg-white/50 hover:bg-white/80 text-amber-800 border border-amber-200 rounded-full text-sm font-medium transition-all shadow-sm hover:shadow">
                         <span class="mr-2">📘</span>
                         ${getText('welcome.guideLink')}
+                    </a>
+                    <a href="${createPageUrl('BackupRestore')}" 
+                       class="inline-flex items-center justify-center px-4 py-2 bg-white/50 hover:bg-white/80 text-amber-800 border border-amber-200 rounded-full text-sm font-medium transition-all shadow-sm hover:shadow">
+                        <span class="mr-2">📦</span>
+                        ${getText('welcome.backupLink')}
                     </a>
                 </div>
 
@@ -584,6 +589,28 @@ function renderReports() {
     });
     const sortedDates = Object.keys(entriesByDate).sort((a, b) => new Date(b) - new Date(a));
     
+    // Generate active filter description for export buttons
+    const getActiveFilterText = () => {
+        const parts = [];
+        if (selectedProject !== 'all') {
+            const project = projects.find(p => p.project_id === selectedProject);
+            if (project) parts.push(project.name);
+        }
+        if (selectedPeriod !== 'all') {
+            const periodLabels = {
+                'thisWeek': getText('reports.thisWeek'),
+                'lastWeek': getText('reports.lastWeek'),
+                'thisMonth': getText('reports.thisMonth'),
+                'lastMonth': getText('reports.lastMonth')
+            };
+            parts.push(periodLabels[selectedPeriod] || selectedPeriod);
+        }
+        return parts.length > 0 ? parts.join(' • ') : getText('reports.allTime');
+    };
+    
+    const activeFilterText = getActiveFilterText();
+    const hasActiveFilters = selectedProject !== 'all' || selectedPeriod !== 'all';
+    
     return `
         <div class="space-y-8">
             <!-- Header -->
@@ -595,26 +622,11 @@ function renderReports() {
                         ${getText('reports.subtitle', { CAT: catName })}
                     </p>
                 </div>
-                
-                <div class="flex flex-col sm:flex-row gap-2">
-                    <button onclick="exportStatsCSV()" 
-                            ${filteredEntries.length === 0 ? 'disabled' : ''}
-                            class="px-4 py-2 border border-amber-200 text-amber-700 hover:bg-amber-100 rounded-lg flex items-center disabled:opacity-50">
-                        ${icons.download}
-                        <span class="ml-2">${getText('reports.exportStats')}</span>
-                    </button>
-                    <button onclick="exportLogCSV()" 
-                            ${filteredEntries.length === 0 ? 'disabled' : ''}
-                            class="px-4 py-2 border border-amber-200 text-amber-700 hover:bg-amber-100 rounded-lg flex items-center disabled:opacity-50">
-                        ${icons.download}
-                        <span class="ml-2">${getText('reports.exportLog')}</span>
-                    </button>
-                </div>
             </div>
 
-            <!-- Filters -->
+            <!-- Filters & Export Section -->
             <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-lg border border-amber-200">
-                <div class="grid md:grid-cols-2 gap-6">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
                     <!-- Route Selection -->
                     <div>
                         <div class="flex items-center gap-3 mb-3">
@@ -647,6 +659,47 @@ function renderReports() {
                             <option value="lastMonth" ${selectedPeriod === 'lastMonth' ? 'selected' : ''}>📖 ${getText('reports.lastMonth')}</option>
                         </select>
                     </div>
+                </div>
+                
+                <!-- Export Section - inside filters to show they use the same filters -->
+                <div class="pt-4 border-t border-amber-200">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">📤</span>
+                            <div>
+                                <span class="text-sm font-medium text-amber-800">${getText('reports.exportTitle')}</span>
+                                <div class="text-xs text-amber-600">
+                                    ${hasActiveFilters ? `
+                                        <span class="inline-flex items-center gap-1">
+                                            <span class="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            ${getText('reports.exportFiltered')}: ${escapeHtml(activeFilterText)}
+                                        </span>
+                                    ` : `
+                                        ${getText('reports.exportAll')}
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <button onclick="exportStatsCSV()" 
+                                    ${filteredEntries.length === 0 ? 'disabled' : ''}
+                                    class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                ${icons.download}
+                                <span class="ml-2">${getText('reports.exportStats')}</span>
+                            </button>
+                            <button onclick="exportLogCSV()" 
+                                    ${filteredEntries.length === 0 ? 'disabled' : ''}
+                                    class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                ${icons.download}
+                                <span class="ml-2">${getText('reports.exportLog')}</span>
+                            </button>
+                        </div>
+                    </div>
+                    ${filteredEntries.length > 0 ? `
+                        <div class="mt-2 text-xs text-amber-600 text-right">
+                            ${getText('reports.exportCount', { COUNT: filteredEntries.length })}
+                        </div>
+                    ` : ''}
                 </div>
             </div>
 
@@ -912,7 +965,7 @@ function renderGuide() {
                 ${activeTab === 'story' ? `
                 <div class="max-w-3xl mx-auto mb-6">
                     <img
-                        src="/assets/cat_truck_stop.jpg"
+                        src="./assets/cat_truck_stop.jpg"
                         alt="${getText('guide.partyCaption')}"
                         class="rounded-xl shadow-lg border-4 border-amber-200 w-full object-cover"
                     />
@@ -960,7 +1013,7 @@ function renderGuideStorySection(activeTab) {
                 </div>
                 <div class="relative">
                     <img
-                        src="/assets/arctic_diner.jpg"
+                        src="./assets/arctic_diner.jpg"
                         alt="${getText('guide.story.dinerCaption')}"
                         class="rounded-2xl shadow-xl border-4 border-amber-100 w-full object-cover"
                     />
@@ -971,7 +1024,7 @@ function renderGuideStorySection(activeTab) {
             </div>
             <div class="bg-white/80 border border-amber-200 rounded-2xl p-6 shadow">
                 <div class="flex flex-col sm:flex-row gap-4 items-center">
-                    <img src="/assets/pringles.jpg"
+                    <img src="./assets/pringles.jpg"
                          alt="Pringles"
                          class="w-20 h-20 rounded-full object-cover border-4 border-amber-200" />
                     <div>
@@ -992,7 +1045,7 @@ function renderGuideStorySection(activeTab) {
                             </div>
                         </div>
                         <audio controls class="w-full h-10 rounded-lg">
-                            <source src="/assets/The%20Pringlettes%20-%20Pringles%20the%20Arctic%20Cat.mp3" type="audio/mpeg">
+                            <source src="assets/The%20Pringlettes%20-%20Pringles%20the%20Arctic%20Cat.mp3" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
                         <p class="text-[10px] text-center text-amber-400 uppercase tracking-widest font-bold">${getText('guide.anthem.caption')}</p>

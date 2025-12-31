@@ -281,7 +281,7 @@ function render() {
     
     // No user logged in
     if (!appState.currentCat) {
-        const publicPages = ['Guide', 'Imprint', 'PrivacyPolicy'];
+        const publicPages = ['Guide', 'Imprint', 'PrivacyPolicy', 'BackupRestore'];
         if (publicPages.includes(appState.currentPage)) {
             let pageContent = '';
             switch (appState.currentPage) {
@@ -293,6 +293,9 @@ function render() {
                     break;
                 case 'PrivacyPolicy':
                     pageContent = renderPrivacyPolicy();
+                    break;
+                case 'BackupRestore':
+                    pageContent = renderBackupRestore();
                     break;
                 default:
                     pageContent = renderWelcomeScreen();
@@ -1837,13 +1840,23 @@ async function handleFileImport(event) {
         
         await importAllData(data);
         
-        // Reload everything
+        // Reload cat list
         appState.cats = await CatTrucker.list();
-        if (appState.currentCat) {
-            await loadUserData();
-        }
+        
+        // Reset current cat selection to force re-selection
+        appState.currentCat = null;
+        localStorage.removeItem('selectedCatId');
+        
+        // Clear user-specific data
+        appState.projects = [];
+        appState.timeEntries = [];
+        appState.dashboardStats = {};
+        appState.projectStats = {};
         
         showToast(getText('backup.restored') || 'Backup restored successfully.', 'success');
+        
+        // Navigate to welcome screen for cat selection
+        navigateTo('Dashboard');
         render();
     } catch (error) {
         console.error('Error importing backup:', error);
@@ -1911,10 +1924,10 @@ async function importAllData(data) {
 // ========================================
 
 function exportStatsCSV() {
-    const entries = appState.timeEntries || [];
+    const filteredEntries = getFilteredTimeEntries();
     const projectTotals = {};
     
-    entries.forEach(entry => {
+    filteredEntries.forEach(entry => {
         const name = entry.project?.name || 'Unknown';
         if (!projectTotals[name]) {
             projectTotals[name] = 0;
@@ -1927,19 +1940,90 @@ function exportStatsCSV() {
         csv += `"${name}",${(minutes / 60).toFixed(2)}\n`;
     });
     
-    downloadCSV(csv, `arctic_trucking_stats_${new Date().toISOString().split('T')[0]}.csv`);
+    const filterSuffix = getFilterSuffix();
+    downloadCSV(csv, `arctic_trucking_stats_${new Date().toISOString().split('T')[0]}${filterSuffix}.csv`);
 }
 
 function exportLogCSV() {
-    const entries = appState.timeEntries || [];
+    const filteredEntries = getFilteredTimeEntries();
     
     let csv = 'Date,Route,Start Time,End Time,Duration (hours),Description\n';
-    entries.forEach(entry => {
+    filteredEntries.forEach(entry => {
         const hours = ((entry.duration_minutes || 0) / 60).toFixed(2);
         csv += `${entry.date},"${entry.project?.name || 'Unknown'}",${entry.start_time || ''},${entry.end_time || ''},${hours},"${(entry.description || '').replace(/"/g, '""')}"\n`;
     });
     
-    downloadCSV(csv, `arctic_trucking_log_${new Date().toISOString().split('T')[0]}.csv`);
+    const filterSuffix = getFilterSuffix();
+    downloadCSV(csv, `arctic_trucking_log_${new Date().toISOString().split('T')[0]}${filterSuffix}.csv`);
+}
+
+// Helper function to get filtered time entries based on current report filters
+function getFilteredTimeEntries() {
+    const entries = appState.timeEntries || [];
+    const selectedProject = appState.reportSelectedProject || 'all';
+    const selectedPeriod = appState.reportSelectedPeriod || 'all';
+    
+    let filteredEntries = [...entries];
+    
+    // Filter by project
+    if (selectedProject !== 'all') {
+        filteredEntries = filteredEntries.filter(e => e.project_id === selectedProject);
+    }
+    
+    // Filter by time period
+    if (selectedPeriod !== 'all') {
+        const now = new Date();
+        filteredEntries = filteredEntries.filter(entry => {
+            const entryDate = new Date(entry.date);
+            
+            if (selectedPeriod === 'thisWeek') {
+                const startOfWeek = new Date(now);
+                startOfWeek.setDate(now.getDate() - now.getDay());
+                startOfWeek.setHours(0, 0, 0, 0);
+                return entryDate >= startOfWeek;
+            } else if (selectedPeriod === 'lastWeek') {
+                const startOfLastWeek = new Date(now);
+                startOfLastWeek.setDate(now.getDate() - now.getDay() - 7);
+                startOfLastWeek.setHours(0, 0, 0, 0);
+                const endOfLastWeek = new Date(startOfLastWeek);
+                endOfLastWeek.setDate(startOfLastWeek.getDate() + 7);
+                return entryDate >= startOfLastWeek && entryDate < endOfLastWeek;
+            } else if (selectedPeriod === 'thisMonth') {
+                const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                return entryDate >= startOfMonth;
+            } else if (selectedPeriod === 'lastMonth') {
+                const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                return entryDate >= startOfLastMonth && entryDate < startOfThisMonth;
+            }
+            return true;
+        });
+    }
+    
+    return filteredEntries;
+}
+
+// Helper function to generate filename suffix based on active filters
+function getFilterSuffix() {
+    const selectedProject = appState.reportSelectedProject || 'all';
+    const selectedPeriod = appState.reportSelectedPeriod || 'all';
+    const projects = appState.projects || [];
+    
+    let suffix = '';
+    
+    if (selectedProject !== 'all') {
+        const project = projects.find(p => p.project_id === selectedProject);
+        if (project) {
+            // Sanitize project name for filename
+            suffix += '_' + project.name.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 20);
+        }
+    }
+    
+    if (selectedPeriod !== 'all') {
+        suffix += '_' + selectedPeriod;
+    }
+    
+    return suffix;
 }
 
 function downloadCSV(content, filename) {

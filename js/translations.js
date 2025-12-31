@@ -12,6 +12,7 @@ const en = {
     title: "Welcome to Pringles' Arctic Time Trucking Co.",
     subtitle: "Choose your cat trucker to begin your arctic journey",
     guideLink: "New to the crew? Read the Trucking Guide first! 📘",
+    backupLink: "Restore a Backup 📦",
     selectTrucker: "Select Trucker",
     addTrucker: "Add New Trucker",
     consent: {
@@ -387,7 +388,11 @@ const en = {
       }
     },
     noData: "No data to display for this period.",
-    noDataQuote: "A clear logbook just means more time for naps!"
+    noDataQuote: "A clear logbook just means more time for naps!",
+    exportTitle: "Export Filtered Data",
+    exportFiltered: "Active filters",
+    exportAll: "Exporting all data (no filters active)",
+    exportCount: "Will export %COUNT% entries"
   },
   backup: {
     title: "Time Trucking Backup",
@@ -518,6 +523,7 @@ const fi = {
     title: "Tervetuloa Pringlesin Arctic Time Trucking Co:hen",
     subtitle: "Valitse kissa-kuljettajasi aloittaaksesi arktisen matkasi",
     guideLink: "Uusi tiimissä? Lue Rekkaopas ensin! 📘",
+    backupLink: "Palauta varmuuskopio 📦",
     selectTrucker: "Valitse Kuljettaja",
     addTrucker: "Lisää Uusi Kuljettaja",
     consent: {
@@ -893,7 +899,11 @@ const fi = {
       }
     },
     noData: "Tietoja ei ole näytettävisä tälle ajanjaksolle.",
-    noDataQuote: "Tyhjä lokikirja tarkoittaa vain enemmän aikaa nokosille!"
+    noDataQuote: "Tyhjä lokikirja tarkoittaa vain enemmän aikaa nokosille!",
+    exportTitle: "Vie suodatetut tiedot",
+    exportFiltered: "Aktiiviset suodattimet",
+    exportAll: "Viedään kaikki tiedot (ei suodattimia)",
+    exportCount: "Vietävät merkinnät: %COUNT%"
   },
   backup: {
     title: "Aika-ajon Varmuuskopiointi",
@@ -1024,6 +1034,7 @@ const de = {
     title: "Willkommen bei Pringles' Arktischer Zeit‑Trucking Co.",
     subtitle: "Wähle deinen Katzen‑Trucker, um die arktische Reise zu starten",
     guideLink: "Neu im Team? Lies zuerst den Trucker-Guide! 📘",
+    backupLink: "Sicherung wiederherstellen 📦",
     selectTrucker: "Fahrer auswählen",
     addTrucker: "Neuen Fahrer hinzufügen",
     consent: {
@@ -1399,7 +1410,11 @@ const de = {
       }
     },
     noData: "Für diesen Zeitraum sind keine Daten zum Anzeigen vorhanden.",
-    noDataQuote: "Ein leeres Logbuch bedeutet nur mehr Zeit für Nickerchen!"
+    noDataQuote: "Ein leeres Logbuch bedeutet nur mehr Zeit für Nickerchen!",
+    exportTitle: "Gefilterte Daten exportieren",
+    exportFiltered: "Aktive Filter",
+    exportAll: "Alle Daten werden exportiert (keine Filter aktiv)",
+    exportCount: "%COUNT% Einträge werden exportiert"
   },
   backup: {
     title: "Zeit-Trucking-Sicherung",
