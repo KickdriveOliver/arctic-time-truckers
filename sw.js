@@ -1,6 +1,7 @@
-const CACHE_NAME = "arctic-time-truckers-v1.1.0";
+const CACHE_NAME = "arctic-time-truckers-v1.1.1";
 
 const FILES_TO_CACHE = [
+  "./",
   "index.html",
   "tailwind.css",
   "favicon.ico", 
@@ -13,7 +14,6 @@ const FILES_TO_CACHE = [
   "js/components.js",
   "js/localDB.js",
   "js/pages.js",
-  "js/sw.js",
   "js/translations.js",
   "js/utils.js",
 

@@ -14,7 +14,9 @@ Inspired by our real-life Pringles (pictured above), a cat who allegedly abandon
 
 - **Time Tracking**: Log your hours on the ice roads (or at your desk).
 - **Project Management**: Organize your deliveries (tasks) by client.
-- **Offline First**: Uses your browser's localStorage. No cloud, no tracking, just you and the open road.
+- **Offline First**:  Uses your browser's localStorage. No cloud, no tracking. Can be installed as an app and used fully offline on Android and iOS.
+- **Backup & Restore**: Save your logs to a local JSON file. Essential because Pringles doesn't trust the cloud.
+- **Export to CSV**: Includes a US/EU format switch, because for some reason Excel still thinks .CSV should depend on your local region settings.
 - **Cat-Themed UI**: Because everything is better with paws.
 - **Multi-Language Support**: English, German, and Finnish (for those authentic arctic vibes).
 
@@ -23,6 +25,7 @@ Inspired by our real-life Pringles (pictured above), a cat who allegedly abandon
 - **Vanilla JavaScript**: No frameworks, just pure JS modules.
 - **Tailwind CSS**: Precompiled and included as `tailwind.css` (no CDN dependency).
 - **JS localStorage**: For no-cloud, device-only local data storage.
+- **Service Workers**: For PWA offline capabilities and caching.
 
 ## Installation / Usage
 
@@ -34,16 +37,17 @@ Inspired by our real-life Pringles (pictured above), a cat who allegedly abandon
 ## Mobile use
 
 1. Go to Pringles' arctic trucking portal at [www.arctictime.de](https://www.arctictime.de)
-2. On Android/Chrome, it will ask you to install it as an app.
-3. Once installed, you can use the app icon to run it fully offline / without Internet connection.
+2. **Android**: It should ask you to install it automatically, or check the browser menu for "Install App".
+3. **iOS**: Tap the "Share" button in Safari and select "Add to Home Screen". 
+4. **Important**: Open the app once while online to let it download the arctic maps (cache the files). After that, it works fully offline!
+5. Once installed, you can use the app icon to run it fully offline — perfect for dead zones in the tundra.
 
 ## About the prototype
 
-This project was first created as a [base44](https://base44.com) prototype (sources in [base44 prototype source](./_base44-prototype-app-src/)), then migrated to a purely offline version using some cats, Github Copilot + Claude 4.5 Opus, GPT 5.2 and Gemini 3 Pro. 
+This project was first created as a [base44](https://base44.com) prototype (sources in [base44 prototype source](./_base44-prototype-app-src/)), then migrated to a purely offline version using some cats, Github Copilot + Claude 4.5 Opus, GPT 5.1 and Gemini 3 Pro. 
 
 See also the related blog post 
 [Cat-Based Coding in 2025 – Can I Haz the Solution?](https://talktomachines.blogspot.com/2025/12/cat-based-coding-in-2025-can-i-haz.html)
-
 
 ## License
 
