@@ -8,6 +8,7 @@
 
 function renderWelcomeScreen() {
     const cats = appState.cats || [];
+    const hasCats = cats.length > 0;
     
     return `
         <div class="min-h-screen bg-gradient-to-b from-orange-50 via-amber-50 to-amber-100 flex items-center justify-center p-4">
@@ -18,6 +19,7 @@ function renderWelcomeScreen() {
                 <h1 class="text-4xl font-bold text-amber-900 mb-2">${getText('welcome.title')}</h1>
                 <p class="text-amber-700 text-lg mb-4">${getText('welcome.subtitle')}</p>
 
+                ${!hasCats ? `
                 <div class="mb-8 flex flex-wrap justify-center gap-3">
                     <a href="${createPageUrl('Guide')}" 
                        class="inline-flex items-center justify-center px-4 py-2 bg-white/50 hover:bg-white/80 text-amber-800 border border-amber-200 rounded-full text-sm font-medium transition-all shadow-sm hover:shadow">
@@ -30,6 +32,7 @@ function renderWelcomeScreen() {
                         ${getText('welcome.backupLink')}
                     </a>
                 </div>
+                ` : ''}
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
                     ${cats.map(cat => `
@@ -138,8 +141,8 @@ function renderLayout(content, currentPage) {
                 <!-- Main Content -->
                 <div class="md:pl-64 flex flex-col flex-1">
                     <!-- Mobile Header -->
-                    <div class="sticky top-0 z-10 flex items-center justify-between p-1.5 bg-white/50 backdrop-blur-sm border-b border-gray-200 md:hidden">
-                        <button class="p-2 text-gray-500 rounded-md" onclick="appState.sidebarOpen = true; render();">
+                    <div class="sticky top-0 z-20 flex items-center justify-between p-4 md:hidden pointer-events-none">
+                        <button class="p-2 bg-white/90 backdrop-blur-md text-amber-900 shadow-md border border-amber-100 rounded-lg pointer-events-auto hover:bg-white transition-all" onclick="appState.sidebarOpen = true; render();">
                             ${icons.menu}
                         </button>
                     </div>
@@ -554,6 +557,9 @@ function renderReports() {
                 const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
                 const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
                 return entryDate >= startOfLastMonth && entryDate < startOfThisMonth;
+            } else if (selectedPeriod.startsWith('month-')) {
+                const [_, year, month] = selectedPeriod.split('-');
+                return entryDate.getFullYear() === parseInt(year) && entryDate.getMonth() === parseInt(month);
             }
             return true;
         });
@@ -611,6 +617,41 @@ function renderReports() {
     const activeFilterText = getActiveFilterText();
     const hasActiveFilters = selectedProject !== 'all' || selectedPeriod !== 'all';
     
+    // Initialize CSV separator if not set
+    if (!appState.csvSeparator) {
+        appState.csvSeparator = getSystemCSVSeparator();
+    }
+    
+    // Generate past months options based on available data
+    const availableMonths = new Set();
+    const now = new Date();
+    availableMonths.add(`${now.getFullYear()}-${now.getMonth()}`); // Always include current month
+
+    timeEntries.forEach(entry => {
+        if (entry.date) {
+            const d = new Date(entry.date);
+            if (!isNaN(d.getTime())) {
+                availableMonths.add(`${d.getFullYear()}-${d.getMonth()}`);
+            }
+        }
+    });
+
+    // Convert to array and sort descending
+    const sortedMonths = Array.from(availableMonths).map(str => {
+        const [year, month] = str.split('-').map(Number);
+        return { year, month };
+    }).sort((a, b) => {
+        if (a.year !== b.year) return b.year - a.year;
+        return b.month - a.month;
+    });
+
+    // Group by year
+    const monthsByYear = {};
+    sortedMonths.forEach(({year, month}) => {
+        if (!monthsByYear[year]) monthsByYear[year] = [];
+        monthsByYear[year].push(month);
+    });
+
     return `
         <div class="space-y-8">
             <!-- Header -->
@@ -655,8 +696,16 @@ function renderReports() {
                             <option value="all" ${selectedPeriod === 'all' ? 'selected' : ''}>🌍 ${getText('reports.allTime')}</option>
                             <option value="thisWeek" ${selectedPeriod === 'thisWeek' ? 'selected' : ''}>📆 ${getText('reports.thisWeek')}</option>
                             <option value="lastWeek" ${selectedPeriod === 'lastWeek' ? 'selected' : ''}>📅 ${getText('reports.lastWeek')}</option>
-                            <option value="thisMonth" ${selectedPeriod === 'thisMonth' ? 'selected' : ''}>🗓️ ${getText('reports.thisMonth')}</option>
-                            <option value="lastMonth" ${selectedPeriod === 'lastMonth' ? 'selected' : ''}>📖 ${getText('reports.lastMonth')}</option>
+                            <option disabled>──────────</option>
+                            ${Object.keys(monthsByYear).sort((a,b) => b - a).map(year => `
+                                <optgroup label="${year}">
+                                    ${monthsByYear[year].map(month => {
+                                        const monthName = getText(`reports.months.${month}`) || new Date(year, month, 1).toLocaleString(getLanguage(), { month: 'long' });
+                                        const value = `month-${year}-${month}`;
+                                        return `<option value="${value}" ${selectedPeriod === value ? 'selected' : ''}>🗓️ ${monthName} ${year}</option>`;
+                                    }).join('')}
+                                </optgroup>
+                            `).join('')}
                         </select>
                     </div>
                 </div>
@@ -664,23 +713,41 @@ function renderReports() {
                 <!-- Export Section - inside filters to show they use the same filters -->
                 <div class="pt-4 border-t border-amber-200">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xl">📤</span>
-                            <div>
-                                <span class="text-sm font-medium text-amber-800">${getText('reports.exportTitle')}</span>
-                                <div class="text-xs text-amber-600">
-                                    ${hasActiveFilters ? `
-                                        <span class="inline-flex items-center gap-1">
-                                            <span class="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>
-                                            ${getText('reports.exportFiltered')}: ${escapeHtml(activeFilterText)}
-                                        </span>
-                                    ` : `
-                                        ${getText('reports.exportAll')}
-                                    `}
+
+                        <button onclick="handleDeleteAllTimeEntries()" 
+                                class="px-4 py-2 border border-red-300 text-red-700 hover:bg-red-50 rounded-lg flex items-center justify-center transition-colors mr-2">
+                            ${icons.trash}
+                            <span class="ml-2">${getText('reports.deleteAllLogs')}</span>
+                        </button>
+                            
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">📤</span>
+                                <div>
+                                    <span class="text-sm font-medium text-amber-800">${getText('reports.exportTitle')}</span>
+                                    <div class="text-xs text-amber-600">
+                                        ${hasActiveFilters ? `
+                                            <span class="inline-flex items-center gap-1">
+                                                <span class="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>
+                                                ${getText('reports.exportFiltered')}: ${escapeHtml(activeFilterText)}
+                                            </span>
+                                        ` : `
+                                            ${getText('reports.exportAll')}
+                                        `}
+                                    </div>
                                 </div>
                             </div>
+                            <div class="flex items-center gap-2 mr-2 bg-white/50 px-2 py-1 rounded-lg border border-amber-100">
+                                <span class="text-xs text-amber-800 font-medium">CSV format:</span>
+                                <select onchange="appState.csvSeparator = this.value; render();" 
+                                        class="text-xs border-none bg-transparent text-amber-900 font-bold focus:ring-0 cursor-pointer">
+                                    <option value=";" ${appState.csvSeparator === ';' ? 'selected' : ''}>🇪🇺 EU ( ; , )</option>
+                                    <option value="," ${appState.csvSeparator === ',' ? 'selected' : ''}>🇺🇸 US ( , . )</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-2">
+
+                        <div class="flex flex-col sm:flex-row gap-2 items-center">
                             <button onclick="exportStatsCSV()" 
                                     ${filteredEntries.length === 0 ? 'disabled' : ''}
                                     class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
@@ -965,7 +1032,7 @@ function renderGuide() {
                 ${activeTab === 'story' ? `
                 <div class="max-w-3xl mx-auto mb-6">
                     <img
-                        src="./assets/cat_truck_stop.jpg"
+                        src="assets/cat_truck_stop.jpg"
                         alt="${getText('guide.partyCaption')}"
                         class="rounded-xl shadow-lg border-4 border-amber-200 w-full object-cover"
                     />
@@ -1013,7 +1080,7 @@ function renderGuideStorySection(activeTab) {
                 </div>
                 <div class="relative">
                     <img
-                        src="./assets/arctic_diner.jpg"
+                        src="assets/arctic_diner.jpg"
                         alt="${getText('guide.story.dinerCaption')}"
                         class="rounded-2xl shadow-xl border-4 border-amber-100 w-full object-cover"
                     />
@@ -1024,7 +1091,7 @@ function renderGuideStorySection(activeTab) {
             </div>
             <div class="bg-white/80 border border-amber-200 rounded-2xl p-6 shadow">
                 <div class="flex flex-col sm:flex-row gap-4 items-center">
-                    <img src="./assets/pringles.jpg"
+                    <img src="assets/pringles.jpg"
                          alt="Pringles"
                          class="w-20 h-20 rounded-full object-cover border-4 border-amber-200" />
                     <div>
@@ -1347,7 +1414,7 @@ function renderPrivacyPolicy() {
         <div class="space-y-8">
             <h1 class="text-3xl font-bold text-amber-900">${getText('privacy.title')}</h1>
             <p class="text-amber-700">${getText('privacy.intro')}</p>
-            
+               
             <div class="space-y-6">
                 <div class="bg-amber-50 p-6 rounded-lg border border-amber-200">
                     <h2 class="text-xl font-semibold text-amber-900 mb-3">${getText('privacy.responsible.title')}</h2>

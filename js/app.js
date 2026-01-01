@@ -1743,6 +1743,30 @@ async function handleDeleteTimeEntry(entryId) {
     }
 }
 
+async function handleDeleteAllTimeEntries() {
+    if (!appState.timeEntries || appState.timeEntries.length === 0) {
+        showToast(getText('reports.noData'), 'info');
+        return;
+    }
+
+    const confirmed = await showConfirmDialog(
+        getText('reports.deleteAllConfirm'),
+        getText('reports.deleteAllConfirmDesc')
+    );
+
+    if (confirmed) {
+        try {
+            await TimeEntry.clear();
+            await loadUserData();
+            showToast(getText('reports.logsDeleted'), 'success');
+            render();
+        } catch (error) {
+            console.error('Error deleting all time entries:', error);
+            showToast(getText('errors.deleteFailed') || 'Could not delete logs.', 'error');
+        }
+    }
+}
+
 // ========================================
 // SAVE TIMER ENTRY DIALOG
 // ========================================
@@ -1926,6 +1950,7 @@ async function importAllData(data) {
 function exportStatsCSV() {
     const filteredEntries = getFilteredTimeEntries();
     const projectTotals = {};
+    const separator = appState.csvSeparator || ',';
     
     filteredEntries.forEach(entry => {
         const name = entry.project?.name || 'Unknown';
@@ -1935,9 +1960,10 @@ function exportStatsCSV() {
         projectTotals[name] += entry.duration_minutes || 0;
     });
     
-    let csv = 'Route,Total Hours\n';
+    let csv = `Route${separator}Total Hours\n`;
     Object.entries(projectTotals).forEach(([name, minutes]) => {
-        csv += `"${name}",${(minutes / 60).toFixed(2)}\n`;
+        const hours = (minutes / 60).toFixed(2);
+        csv += `${escapeCSVField(name, separator)}${separator}${formatNumberForCSV(hours, separator)}\n`;
     });
     
     const filterSuffix = getFilterSuffix();
@@ -1946,11 +1972,12 @@ function exportStatsCSV() {
 
 function exportLogCSV() {
     const filteredEntries = getFilteredTimeEntries();
+    const separator = appState.csvSeparator || ',';
     
-    let csv = 'Date,Route,Start Time,End Time,Duration (hours),Description\n';
+    let csv = `Date${separator}Route${separator}Start Time${separator}End Time${separator}Duration (hours)${separator}Description\n`;
     filteredEntries.forEach(entry => {
         const hours = ((entry.duration_minutes || 0) / 60).toFixed(2);
-        csv += `${entry.date},"${entry.project?.name || 'Unknown'}",${entry.start_time || ''},${entry.end_time || ''},${hours},"${(entry.description || '').replace(/"/g, '""')}"\n`;
+        csv += `${entry.date}${separator}${escapeCSVField(entry.project?.name || 'Unknown', separator)}${separator}${entry.start_time || ''}${separator}${entry.end_time || ''}${separator}${formatNumberForCSV(hours, separator)}${separator}${escapeCSVField(entry.description || '', separator)}\n`;
     });
     
     const filterSuffix = getFilterSuffix();
@@ -1995,6 +2022,9 @@ function getFilteredTimeEntries() {
                 const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
                 const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
                 return entryDate >= startOfLastMonth && entryDate < startOfThisMonth;
+            } else if (selectedPeriod.startsWith('month-')) {
+                const [_, year, month] = selectedPeriod.split('-');
+                return entryDate.getFullYear() === parseInt(year) && entryDate.getMonth() === parseInt(month);
             }
             return true;
         });
@@ -2027,7 +2057,8 @@ function getFilterSuffix() {
 }
 
 function downloadCSV(content, filename) {
-    const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+    // Add BOM for Excel UTF-8 compatibility
+    const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -2084,6 +2115,7 @@ window.handleDeleteProject = handleDeleteProject;
 window.showAddTimeEntryDialog = showAddTimeEntryDialog;
 window.showEditTimeEntryDialog = showEditTimeEntryDialog;
 window.handleDeleteTimeEntry = handleDeleteTimeEntry;
+window.handleDeleteAllTimeEntries = handleDeleteAllTimeEntries;
 window.saveTimerEntry = saveTimerEntry;
 window.handleCreateBackup = handleCreateBackup;
 window.handleQuickBackup = handleQuickBackup;

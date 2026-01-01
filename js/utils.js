@@ -3,18 +3,18 @@
 // ========================================
 
 // Default avatar URL
-const DEFAULT_AVATAR = "./assets/1-pringles-ice-road-specialist.jpg";
+const DEFAULT_AVATAR = "assets/1-pringles-ice-road-specialist.jpg";
 
 // Avatar options for selection
 const AVATAR_OPTIONS = [
     DEFAULT_AVATAR,
-    "./assets/2-aurora-purple-navigator.jpg",
-    "./assets/3-fluffy-snow-specialist.jpg",
-    "./assets/4-gray-night-professional.jpg",
-    "./assets/5-skittles-siamese-compass.jpg",
-    "./assets/6-orange-tabby-junior-driver.jpg",
-    "./assets/7-maine-coon-northern-expert.jpg",
-	"/assets/8-tuxedo-long-haul-professional.jpg"
+    "assets/2-aurora-purple-navigator.jpg",
+    "assets/3-fluffy-snow-specialist.jpg",
+    "assets/4-gray-night-professional.jpg",
+    "assets/5-skittles-siamese-compass.jpg",
+    "assets/6-orange-tabby-junior-driver.jpg",
+    "assets/7-maine-coon-northern-expert.jpg",
+	"assets/8-tuxedo-long-haul-professional.jpg"
 ];
 
 
@@ -29,6 +29,35 @@ const PROJECT_COLORS = [
     '#06b6d4', // cyan-500
     '#f97316', // orange-500
 ];
+
+// ========================================
+// CSV UTILITIES
+// ========================================
+
+function getSystemCSVSeparator() {
+    const numberFormat = new Intl.NumberFormat();
+    const parts = numberFormat.formatToParts(1.1);
+    const decimalPart = parts.find(part => part.type === 'decimal');
+    return decimalPart && decimalPart.value === ',' ? ';' : ',';
+}
+
+function formatNumberForCSV(num, separator) {
+    if (num === undefined || num === null) return '';
+    // If separator is semicolon (EU), we want comma decimals
+    if (separator === ';') {
+        return num.toString().replace('.', ',');
+    }
+    return num.toString();
+}
+
+function escapeCSVField(field, separator) {
+    if (field === undefined || field === null) return '';
+    const stringField = String(field);
+    if (stringField.includes(separator) || stringField.includes('"') || stringField.includes('\n')) {
+        return `"${stringField.replace(/"/g, '""')}"`;
+    }
+    return stringField;
+}
 
 // ========================================
 // TIME UTILITIES
