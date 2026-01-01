@@ -2,7 +2,7 @@
   "name": "Arctic Time Trucking Co.",
   "short_name": "Arctic Time",
   "description": "Cat-powered offline time tracking on the arctic roads.",
-  "start_url": "./index.html",
+  "start_url": "./app.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#fffbeb",

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arctic Time Trucking Co.</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+    <link rel="apple-touch-icon" href="assets/icon-192.png" sizes="192x192">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d97706">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Arctic Time">
+    <link href="tailwind.css" rel="stylesheet">
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-bounce {
+            animation: bounce 1s ease-in-out infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .animate-shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fef3c7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b45309;
+        }
+        /* Dialog/Modal backdrop */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-orange-50 via-amber-50 to-amber-100">
+    <div id="app"></div>
+    <div id="modal-root"></div>
+    <div id="toast-root" class="fixed bottom-4 right-4 z-50"></div>
+    
+    <script src="js/translations.js"></script>
+    <script src="js/localDB.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/pages.js"></script>
+    <script src="js/app.js"></script>
+
+<script> 
+    if ("serviceWorker" in navigator) { 
+        // Service Workers only work on http/https, not file://
+        if (window.location.protocol.startsWith('http')) {
+            window.addEventListener("load", () => { 
+                navigator.serviceWorker.register("sw.js")
+                    .catch(err => console.log('SW registration failed: ', err));
+            });
+        } else {
+            console.log('Service Workers require HTTP/HTTPS. Skipping registration on file protocol.');
+        }
+    } 
+</script>
+
+</body>
+</html>

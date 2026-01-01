@@ -3,87 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arctic Time Trucking Co.</title>
+    <title>Arctic Time Trucking Co. · Pringles' Dispatch Center</title>
+    <meta name="description" content="Join Pringles and the crew for the most whimsical arctic time tracking adventure. Manage routes, log deliveries, and optimize nap schedules.">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
     <link rel="apple-touch-icon" href="assets/icon-192.png" sizes="192x192">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#d97706">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Arctic Time">
     <link href="tailwind.css" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Arctic Time Trucking Co.",
+      "applicationCategory": "Productivity",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
     <style>
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes bounce {
+        @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-        .animate-bounce {
-            animation: bounce 1s ease-in-out infinite;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        .animate-shake {
-            animation: shake 0.3s ease-in-out;
-        }
-        .sidebar-transition {
-            transition: transform 0.3s ease-in-out;
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #fef3c7;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d97706;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #b45309;
-        }
-        /* Dialog/Modal backdrop */
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.5);
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-orange-50 via-amber-50 to-amber-100">
-    <div id="app"></div>
-    <div id="modal-root"></div>
-    <div id="toast-root" class="fixed bottom-4 right-4 z-50"></div>
+<body class="min-h-screen bg-gradient-to-b from-orange-50 via-amber-50 to-amber-100 flex flex-col">
     
-    <script src="js/translations.js"></script>
-    <script src="js/localDB.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/components.js"></script>
-    <script src="js/pages.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Hero Section -->
+    <main class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+        <div class="max-w-4xl w-full space-y-8">
+            
+            <!-- Logo / Avatar -->
+            <div class="relative inline-block">
+                <div class="absolute inset-0 bg-amber-200 rounded-full blur-xl opacity-50 animate-pulse"></div>
+                <img src="assets/1-pringles-ice-road-specialist.jpg" 
+                     alt="Pringles Trucking" 
+                     width="192" height="192"
+                     style="width: 12rem; height: 12rem;"
+                     class="relative w-48 h-48 mx-auto rounded-full object-cover border-8 border-white shadow-2xl animate-float" />
+                <div class="absolute -bottom-4 -right-4 bg-white p-2 rounded-full shadow-lg border border-amber-100 transform rotate-12">
+                    <span class="text-4xl">🚛</span>
+                </div>
+            </div>
 
-<script> 
-    if ("serviceWorker" in navigator) { 
-        // Service Workers only work on http/https, not file://
-        if (window.location.protocol.startsWith('http')) {
-            window.addEventListener("load", () => { 
-                navigator.serviceWorker.register("sw.js")
-                    .catch(err => console.log('SW registration failed: ', err));
-            });
-        } else {
-            console.log('Service Workers require HTTP/HTTPS. Skipping registration on file protocol.');
-        }
-    } 
-</script>
+            <!-- Headlines -->
+            <div class="space-y-4">
+                <h1 class="text-5xl md:text-6xl font-bold text-amber-900 tracking-tight">
+                    Arctic Time Trucking Co.
+                </h1>
+                <p class="text-xl md:text-2xl text-amber-700 font-medium max-w-2xl mx-auto">
+                    The world's first time tracking app designed by cats, for cats (and their humans).
+                </p>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="pt-8">
+                <a href="app.html" 
+                   class="inline-flex items-center px-8 py-4 text-lg font-bold text-white bg-amber-600 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-200 border-2 border-white/20">
+                    <span>Enter Dispatch Center</span>
+                    <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </a>
+                <p class="mt-4 text-sm text-amber-600 opacity-80">
+                    No login required. Your data stays on your device.
+                </p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid md:grid-cols-3 gap-6 pt-12 text-left">
+                <div class="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-amber-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl mb-3">⏱️</div>
+                    <h3 class="text-lg font-bold text-amber-900 mb-2">Precision Timing</h3>
+                    <p class="text-amber-700 text-sm">Track every second of your arctic expeditions, even when interrupted by sudden naps.</p>
+                </div>
+                <div class="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-amber-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl mb-3">🗺️</div>
+                    <h3 class="text-lg font-bold text-amber-900 mb-2">Route Management</h3>
+                    <p class="text-amber-700 text-sm">Plan the most efficient fish delivery routes through the treacherous frozen tundra.</p>
+                </div>
+                <div class="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-amber-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl mb-3">🔒</div>
+                    <h3 class="text-lg font-bold text-amber-900 mb-2">Local & Private</h3>
+                    <p class="text-amber-700 text-sm">What happens in the arctic, stays in the arctic. 100% offline-first architecture.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-amber-800/60 text-sm">
+        <div class="flex justify-center gap-6 mb-4">
+            <a href="guide.html" class="hover:text-amber-900 underline">Trucking Guide</a>
+            <a href="imprint.html" class="hover:text-amber-900 underline">Imprint</a>
+            <a href="privacy.html" class="hover:text-amber-900 underline">Privacy Policy</a>
+        </div>
+        <p>© 2026 Arctic Time Trucking Co. All rights to napping reserved.</p>
+    </footer>
 
 </body>
 </html>

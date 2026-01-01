@@ -189,6 +189,18 @@ function getTimeRanges() {
 // ========================================
 
 function createPageUrl(pageName) {
+    // Static pages always link to their HTML files
+    if (pageName === 'Guide') return 'guide.html';
+    if (pageName === 'Imprint') return 'imprint.html';
+    if (pageName === 'PrivacyPolicy') return 'privacy.html';
+
+    // SPA pages: If we are NOT on app.html, link to app.html
+    const path = window.location.pathname;
+    if (!path.endsWith('app.html')) {
+        return 'app.html#' + pageName;
+    }
+
+    // Otherwise use hash navigation
     return '#' + pageName;
 }
 

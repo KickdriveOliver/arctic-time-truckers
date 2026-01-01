@@ -1,8 +1,12 @@
-const CACHE_NAME = "arctic-time-truckers-v1.1.2";
+const CACHE_NAME = "arctic-time-truckers-v1.3.0";
 
 const FILES_TO_CACHE = [
   "./",
   "index.html",
+  "app.html",
+  "guide.html",
+  "imprint.html",
+  "privacy.html",
   "tailwind.css",
   "favicon.ico", 
   "favicon.png", 
