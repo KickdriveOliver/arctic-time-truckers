@@ -741,6 +741,13 @@ async function handleUpdateProfile(e) {
     try {
         await CatTrucker.update(cat.cat_trucker_id, updates);
         appState.currentCat = { ...cat, ...updates };
+
+        // Update the cat in the global list so the switcher reflects changes immediately
+        const catIndex = appState.cats.findIndex(c => c.cat_trucker_id === cat.cat_trucker_id);
+        if (catIndex !== -1) {
+            appState.cats[catIndex] = { ...appState.cats[catIndex], ...updates };
+        }
+
         hideModal();
         showToast(getText('trucker.edit.success') || 'Profile updated!', 'success');
         render();
@@ -1211,12 +1218,52 @@ async function verifyPasscode(catId, code) {
 // PROJECT HANDLERS
 // ========================================
 
-function showNewProjectDialog() {
+function renderColorPicker(selectedColor, callbackName) {
     const colors = [
         '#f59e0b', '#ef4444', '#10b981', '#3b82f6', 
         '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'
     ];
     
+    return `
+        <div class="flex gap-2 flex-wrap" id="color-picker-container">
+            ${colors.map(color => `
+                <label class="cursor-pointer relative" onclick="${callbackName}('${color}')">
+                    <input type="radio" 
+                           name="color" 
+                           value="${color}" 
+                           ${selectedColor === color ? 'checked' : ''}
+                           class="hidden peer" />
+                    <div class="w-8 h-8 rounded-full border-2 border-transparent peer-checked:border-amber-900 peer-checked:ring-2 peer-checked:ring-white transition-all"
+                         style="background-color: ${color}"></div>
+                    <div style="position:absolute; top:1em; right:-0.5em;" 
+                         class="color-paw-icon text-amber-500 ${selectedColor === color ? '' : 'hidden'} bg-white rounded-full p-0 shadow-sm border border-amber-200">
+                        ${icons.paw}
+                    </div>
+                </label>
+            `).join('')}
+        </div>
+    `;
+}
+
+window.handleColorSelect = function(color) {
+    const container = document.getElementById('color-picker-container');
+    if (!container) return;
+    
+    const labels = container.querySelectorAll('label');
+    labels.forEach(label => {
+        const input = label.querySelector('input');
+        const pawIcon = label.querySelector('.color-paw-icon');
+        
+        if (input && input.value === color) {
+            input.checked = true;
+            if (pawIcon) pawIcon.classList.remove('hidden');
+        } else {
+            if (pawIcon) pawIcon.classList.add('hidden');
+        }
+    });
+};
+
+function showNewProjectDialog() {
     const modalContent = `
         <div class="p-6 max-w-md mx-auto">
             <h2 class="text-2xl font-bold text-amber-900 mb-2">${getText('projects.new')}</h2>
@@ -1241,20 +1288,8 @@ function showNewProjectDialog() {
                 </div>
                 
                 <div>
-                          <label class="block text-sm font-medium text-amber-800 mb-2">${getText('projects.color')}</label>
-                    <div class="flex gap-2 flex-wrap">
-                        ${colors.map((color, i) => `
-                            <label class="cursor-pointer">
-                                <input type="radio" 
-                                       name="color" 
-                                       value="${color}" 
-                                       ${i === 0 ? 'checked' : ''}
-                                       class="hidden peer" />
-                                <div class="w-8 h-8 rounded-full border-2 border-transparent peer-checked:border-gray-900 peer-checked:ring-2 peer-checked:ring-white"
-                                     style="background-color: ${color}"></div>
-                            </label>
-                        `).join('')}
-                    </div>
+                    <label class="block text-sm font-medium text-amber-800 mb-2">${getText('projects.color')}</label>
+                    ${renderColorPicker('#f59e0b', 'handleColorSelect')}
                 </div>
                 
                 <div class="flex justify-end gap-2 pt-4">
@@ -1314,14 +1349,9 @@ function showEditProjectDialog(projectId) {
     const project = appState.projects.find(p => p.project_id === projectId);
     if (!project) return;
     
-    const colors = [
-        '#f59e0b', '#ef4444', '#10b981', '#3b82f6', 
-        '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'
-    ];
-    
     const modalContent = `
         <div class="p-6 max-w-md mx-auto">
-            <h2 class="text-2xl font-bold text-amber-900 mb-6">${getText('projects.edit')}</h2>
+            <h2 class="text-2xl font-bold text-amber-900 mb-6">${getText('projects.editTitle')}</h2>
             
             <form id="edit-project-form" class="space-y-4">
                 <input type="hidden" name="project_id" value="${project.project_id}" />
@@ -1344,19 +1374,7 @@ function showEditProjectDialog(projectId) {
                 
                 <div>
                     <label class="block text-sm font-medium text-amber-800 mb-2">${getText('projects.color')}</label>
-                    <div class="flex gap-2 flex-wrap">
-                        ${colors.map(color => `
-                            <label class="cursor-pointer">
-                                <input type="radio" 
-                                       name="color" 
-                                       value="${color}" 
-                                       ${project.color === color ? 'checked' : ''}
-                                       class="hidden peer" />
-                                <div class="w-8 h-8 rounded-full border-2 border-transparent peer-checked:border-gray-900 peer-checked:ring-2 peer-checked:ring-white"
-                                     style="background-color: ${color}"></div>
-                            </label>
-                        `).join('')}
-                    </div>
+                    ${renderColorPicker(project.color, 'handleColorSelect')}
                 </div>
                 
                 <div class="flex justify-end gap-2 pt-4">

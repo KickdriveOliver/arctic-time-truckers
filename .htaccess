@@ -1,9 +1,18 @@
 RewriteEngine On
 
-# 1. Redirect non-HTTPS to HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# ---------------------------------------------------------
+# 1. Force HTTPS + www
+# ---------------------------------------------------------
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\.arctictime\.de$ [NC]
+RewriteRule ^(.*)$ https://www.arctictime.de/$1 [L,R=301]
 
-# 2. Redirect non-www to www (preserves path and query)
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [L,R=301]
+# ---------------------------------------------------------
+# 2. Outddated URLS Google picked up from the prototype
+# ---------------------------------------------------------
+
+# Redirect /Guide → /guide.html
+RewriteRule ^Guide/?$ https://www.arctictime.de/guide.html [L,R=301,NC]
+
+# Redirect /Imprint → /imprint.html
+RewriteRule ^Imprint/?$ https://www.arctictime.de/imprint.html [L,R=301,NC]

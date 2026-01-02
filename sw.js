@@ -1,4 +1,4 @@
-const CACHE_NAME = "arctic-time-truckers-v1.3.2";
+const CACHE_NAME = "arctic-time-truckers-v1.4.0";
 
 const FILES_TO_CACHE = [
   "./",

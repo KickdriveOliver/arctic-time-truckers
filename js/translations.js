@@ -468,7 +468,7 @@ const en = {
         importData: "Restore from Backup (.json)"
     },
     edit: {
-      title: "Edit Cat Profile",
+      title: "Edit Cat Trucker Profile",
       description: "Update %CAT%'s information",
       profilePicture: "Profile Picture",
       choosePhoto: "Choose your purrfect trucker photo",
@@ -1524,7 +1524,7 @@ const de = {
         importData: "Aus Sicherung wiederherstellen (.json)"
     },
     edit: {
-      title: "Katzenprofil bearbeiten",
+      title: "Katzen-Truckerprofil bearbeiten",
       description: "%CAT%s Informationen aktualisieren",
       profilePicture: "Profilbild",
       choosePhoto: "Wähle dein schnurr‑fektes Trucker‑Foto",

@@ -499,8 +499,8 @@ function renderAvatarSelector(currentAvatar, onSelectCallback) {
                             class="relative flex items-center justify-center w-20 h-20 rounded-full overflow-hidden border-4 ${currentAvatar === url ? 'border-amber-500' : 'border-transparent hover:border-amber-300'} transition-colors">
                         <img src="${url}" alt="Avatar ${index + 1}" class="w-16 h-16 rounded-full object-cover" />
                         ${currentAvatar === url ? `
-                            <div class="absolute inset-0 rounded-full bg-amber-500/20 flex items-center justify-center">
-                                <div class="bg-amber-500 text-white rounded-full p-1">${icons.check}</div>
+                            <div class="absolute bottom-0 right-0 text-amber-500 bg-white rounded-full p-0.5 shadow-sm border border-amber-200 transform translate-x-1 translate-y-1">
+                                ${icons.paw}
                             </div>
                         ` : ''}
                     </button>

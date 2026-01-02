@@ -190,7 +190,7 @@ function getTimeRanges() {
 
 function createPageUrl(pageName) {
     // Internal routing for all pages
-    return `javascript:navigateTo('${pageName}')`;
+    return `#${pageName}`;
 }
 
 function getCurrentPage() {
