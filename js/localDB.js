@@ -93,10 +93,19 @@ function createApi(storeName) {
             saveDB(db);
             return true;
         },
-        async clear() {
+        async clear(filterFn) {
             const db = loadDB();
-            db[storeName] = { seq: 1, items: [] };
-            saveDB(db);
+            if (filterFn) {
+                const store = getStore(db, storeName);
+                const initialCount = store.items.length;
+                store.items = store.items.filter(item => !filterFn(item));
+                if (store.items.length !== initialCount) {
+                    saveDB(db);
+                }
+            } else {
+                db[storeName] = { seq: 1, items: [] };
+                saveDB(db);
+            }
             return true;
         },
     };

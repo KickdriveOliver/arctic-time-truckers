@@ -9,8 +9,8 @@ const en = {
     status: "Arctic Route Status: Purr-fectly Grumpy"
   },
   welcome: {
-    title: "Welcome to Pringles' Arctic Time Trucking Co.",
-    subtitle: "Choose your cat trucker to begin your arctic journey",
+    title: "Welcome to Arctic Time Trucking Co.",
+    subtitle: "Pringles the cat trucker and his purrfect time trucking app invite you in - Choose your cat trucker to begin your arctic journey",
     guideLink: "New to the crew? Read the Trucking Guide first! 📘",
     backupLink: "Restore a Backup 📦",
     selectTrucker: "Select Trucker",
@@ -403,9 +403,9 @@ const en = {
     exportAll: "Exporting all data (no filters active)",
     exportCount: "Will export %COUNT% entries",
     deleteAllLogs: "Delete All Logs",
-    deleteAllConfirm: "Clear Logs for a Fresh Start?",
-    deleteAllConfirmDesc: "Planning a fresh start? This will wipe all time entries clean, like fresh snow on the road. Your routes and profiles stay safe.\n\n⚠️ Pringles' pro tip: Create a Backup first! Once deleted, these logs are gone forever.",
-    logsDeleted: "All time logs deleted. Fresh start!",
+    deleteAllConfirm: "Clear Logs for %CAT_NAME%?",
+    deleteAllConfirmDesc: "Planning a fresh start for %CAT_NAME%? This will wipe all their time entries clean, like fresh snow on the road. Other cats' logs will be safe.\n\n⚠️ Pringles' pro tip: Create a Backup first! Once deleted, these logs are gone forever.",
+    logsDeleted: "Time logs deleted for %CAT_NAME%. Fresh start!",
     months: {
         0: "January", 1: "February", 2: "March", 3: "April", 4: "May", 5: "June",
         6: "July", 7: "August", 8: "September", 9: "October", 10: "November", 11: "December"
@@ -537,8 +537,8 @@ const fi = {
     status: "Arktinen reittitilanne: Täydellisen Äreä"
   },
   welcome: {
-    title: "Tervetuloa Pringlesin Arctic Time Trucking Co:hen",
-    subtitle: "Valitse kissa-kuljettajasi aloittaaksesi arktisen matkasi",
+    title: "Tervetuloa Arktinen Kuljetusaika Oy:hyn",
+    subtitle: "Pringles-rekkakissa ja hänen täydellinen sovelluksensa kutsuvat sinut mukaan - Valitse kissa-kuljettajasi aloittaaksesi arktisen matkasi",
     guideLink: "Uusi tiimissä? Lue Rekkaopas ensin! 📘",
     backupLink: "Palauta varmuuskopio 📦",
     selectTrucker: "Valitse Kuljettaja",
@@ -591,7 +591,7 @@ const fi = {
       link: "Katso Impressum"
     },
     data: {
-      title: "What Data Do We Collect (and Where)?",
+      title: "Mitä tietoja keräämme (ja mistä)?",
       p1: "Tämä on tärkein osa: Tämä sovellus tallentaa KAIKKI tietosi paikallisesti selaimesi tallennustilaan. Mitään ei lähetetä palvelimelle. Sinun tietosi, sinun laitteesi. Yksinkertaista.",
       profile: {
         title: "Kissakuljettajan profiilitiedot",
@@ -931,9 +931,9 @@ const fi = {
     exportAll: "Viedään kaikki tiedot (ei suodattimia)",
     exportCount: "Vietävät merkinnät: %COUNT%",
     deleteAllLogs: "Poista kaikki lokit",
-    deleteAllConfirm: "Tyhjennä lokit uutta alkua varten?",
-    deleteAllConfirmDesc: "Suunnitteletko uutta alkua? Tämä pyyhkii kaikki aikamerkinnät pois, kuin uusi lumi tiellä. Reittisi ja profiilisi säilyvät.\n\n⚠️ Pringlesin neuvo: Luo Varmuuskopio ensin! Kun ne on poistettu, nämä lokit ovat poissa ikuisesti.",
-    logsDeleted: "Kaikki aikalokit poistettu. Uusi alku!",
+    deleteAllConfirm: "Tyhjennä lokit kuljettajalle %CAT_NAME%?",
+    deleteAllConfirmDesc: "Suunnitteletko uutta alkua kuljettajalle %CAT_NAME%? Tämä pyyhkii kaikki aikamerkinnät pois, kuin uusi lumi tiellä. Muiden kissojen lokit säilyvät turvassa.\n\n⚠️ Pringlesin neuvo: Luo Varmuuskopio ensin! Kun ne on poistettu, nämä lokit ovat poissa ikuisesti.",
+    logsDeleted: "Aikalokit poistettu kuljettajalle %CAT_NAME%. Uusi alku!",
     months: {
         0: "Tammikuu", 1: "Helmikuu", 2: "Maaliskuu", 3: "Huhtikuu", 4: "Toukokuu", 5: "Kesäkuu",
         6: "Heinäkuu", 7: "Elokuu", 8: "Syyskuu", 9: "Lokakuu", 10: "Marraskuu", 11: "Joulukuu"
@@ -1065,8 +1065,8 @@ const de = {
     status: "Arktischer Routenstatus: Perfekt mürrisch"
   },
   welcome: {
-    title: "Willkommen bei Pringles' Arktischer Zeit‑Trucking Co.",
-    subtitle: "Wähle deinen Katzen‑Trucker, um die arktische Reise zu starten",
+    title: "Willkommen bei der Arktischen Zeit‑Trucking GmbH",
+    subtitle: "Pringles der Trucker-Kater und seine schnurr-fekte App laden dich ein - Wähle deinen Katzen‑Trucker, um die arktische Reise zu starten",
     guideLink: "Neu im Team? Lies zuerst den Trucker-Guide! 📘",
     backupLink: "Sicherung wiederherstellen 📦",
     selectTrucker: "Fahrer auswählen",
@@ -1459,9 +1459,9 @@ const de = {
     exportAll: "Alle Daten werden exportiert (keine Filter aktiv)",
     exportCount: "%COUNT% Einträge werden exportiert",
     deleteAllLogs: "Alle Logs löschen",
-    deleteAllConfirm: "Logs für einen Neustart löschen?",
-    deleteAllConfirmDesc: "Planst du einen frischen Start? Dies wischt alle Zeiteinträge weg, wie frischer Schnee auf der Straße. Deine Routen und Profile bleiben sicher.\n\n⚠️ Pringles' Pro-Tipp: Erstelle zuerst eine Sicherung! Einmal gelöscht, sind diese Logs für immer weg.",
-    logsDeleted: "Alle Zeit-Logs gelöscht. Neustart!",
+    deleteAllConfirm: "Logs für %CAT_NAME% leeren?",
+    deleteAllConfirmDesc: "Planst du einen Neuanfang für %CAT_NAME%? Dies wird alle Zeiteinträge löschen, wie frischer Schnee auf der Straße. Die Logs anderer Katzen bleiben sicher.\n\n⚠️ Pringles' Profi-Tipp: Erstelle zuerst ein Backup! Einmal gelöscht, sind diese Logs für immer weg.",
+    logsDeleted: "Zeit-Logs für %CAT_NAME% gelöscht. Neuanfang!",
     months: {
         0: "Januar", 1: "Februar", 2: "März", 3: "April", 4: "Mai", 5: "Juni",
         6: "Juli", 7: "August", 8: "September", 9: "Oktober", 10: "November", 11: "Dezember"

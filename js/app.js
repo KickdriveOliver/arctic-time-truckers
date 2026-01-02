@@ -1749,14 +1749,19 @@ async function handleDeleteAllTimeEntries() {
         return;
     }
 
+    const currentCatName = appState.currentCat ? appState.currentCat.name : 'this cat';
+
     const confirmed = await showConfirmDialog(
-        getText('reports.deleteAllConfirm'),
-        getText('reports.deleteAllConfirmDesc')
+        getText('reports.deleteAllConfirm', { CAT_NAME: currentCatName }),
+        getText('reports.deleteAllConfirmDesc', { CAT_NAME: currentCatName })
     );
 
     if (confirmed) {
         try {
-            await TimeEntry.clear();
+            // Only delete entries for the current cat
+            const currentCatId = appState.currentCat.cat_trucker_id;
+            await TimeEntry.clear(entry => entry.cat_trucker_id === currentCatId);
+            
             await loadUserData();
             showToast(getText('reports.logsDeleted'), 'success');
             render();

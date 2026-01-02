@@ -998,7 +998,7 @@ function renderGuide() {
     }).join('');
     
     return `
-        <div class="space-y-10" id="guide-page">
+        <div class="space-y-4" id="guide-page">
             <div class="space-y-4 text-center md:text-left mx-auto max-w-3xl">
                 <div class="flex items-center justify-center md:justify-start gap-3 text-amber-700 font-semibold tracking-wide">
                     <span class="text-2xl">🐱</span>
@@ -1007,12 +1007,6 @@ function renderGuide() {
                 </div>
                 <h1 class="text-4xl font-bold text-amber-900">${getText('guide.title')}</h1>
                 <p class="text-amber-700 text-lg">${getText('guide.subtitle')}</p>
-                <div class="flex flex-wrap justify-center md:justify-start gap-3 pt-2">
-                    <span class="px-3 py-1 bg-white/70 rounded-full text-amber-800 text-xs border border-amber-200">${getText('navigation.dashboard')}</span>
-                    <span class="px-3 py-1 bg-white/70 rounded-full text-amber-800 text-xs border border-amber-200">${getText('navigation.timer')}</span>
-                    <span class="px-3 py-1 bg-white/70 rounded-full text-amber-800 text-xs border border-amber-200">${getText('navigation.projects')}</span>
-                    <span class="px-3 py-1 bg-white/70 rounded-full text-amber-800 text-xs border border-amber-200">${getText('navigation.reports')}</span>
-                </div>
             </div>
 
             <div class="bg-white/70 border border-amber-200 rounded-2xl p-3 shadow-lg">
@@ -1162,9 +1156,9 @@ function renderGuideGettingStartedSection(activeTab) {
     `).join('');
     
     return renderGuidePanel('getting-started', activeTab, `
-        <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-8 shadow-lg">
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-6 shadow-lg space-y-4">
             <h2 class="text-2xl font-bold text-amber-900 flex items-center gap-2">🚀 ${getText('guide.gettingStarted.welcomeTitle')}</h2>
-            <div class="mt-6 space-y-5">
+            <div class="mt-6 space-y-2">
                 ${steps}
             </div>
         </div>
@@ -1266,9 +1260,25 @@ function renderGuideTipsSection(activeTab) {
         <div class="space-y-6">
             <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-6 shadow-lg space-y-4">
                 <h2 class="text-2xl font-bold text-amber-900 flex items-center gap-2">🎓 ${getText('guide.tips.title')}</h2>
-                <p class="text-sm text-amber-700 bg-white/70 border border-amber-200 rounded-xl p-4">
-                    ${getText('guide.tips.checklistCaption')}
-                </p>
+
+                <div class="bg-purple-100 border border-purple-200 rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">💜</span>
+                        <div>
+                            <h3 class="font-semibold text-purple-900 mb-1 flex items-center gap-2">
+                                ${getText('guide.tips.auroraTitle')} <span class="text-xs">🎵</span>
+                            </h3>
+                            <p class="text-xs text-purple-700">${getText('guide.story.auroraTitle')}</p>
+                        </div>
+                    </div>
+                    <ul class="mt-4 space-y-2 text-purple-700 text-sm">
+                        <li>• ${getText('guide.tips.au1')}</li>
+                        <li>• ${getText('guide.tips.au2')}</li>
+                        <li>• ${getText('guide.tips.au3')}</li>
+                        <li>• ${getText('guide.tips.au4')}</li>
+                    </ul>
+                </div>
+
                 <div class="bg-white/80 border border-amber-100 rounded-2xl p-4 shadow-sm">
                     <div class="flex items-center gap-3">
                         <span class="text-3xl">😾</span>
@@ -1278,30 +1288,13 @@ function renderGuideTipsSection(activeTab) {
                         </div>
                     </div>
                     <ul class="mt-4 space-y-2 text-amber-700 text-sm">
+                        <li>• ${getText('guide.tips.checklistCaption')}</li>
                         <li>• ${getText('guide.tips.pr1')}</li>
                         <li>• ${getText('guide.tips.pr2')}</li>
                         <li>• ${getText('guide.tips.pr3')}</li>
                         <li>• ${getText('guide.tips.pr4')}</li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="bg-purple-100 border border-purple-200 rounded-2xl p-6 shadow-lg">
-                <div class="flex items-center gap-3">
-                    <span class="text-3xl">💜</span>
-                    <div>
-                        <h3 class="font-semibold text-purple-900 mb-1 flex items-center gap-2">
-                            ${getText('guide.tips.auroraTitle')} <span class="text-xs">🎵</span>
-                        </h3>
-                        <p class="text-xs text-purple-700">${getText('guide.story.auroraTitle')}</p>
-                    </div>
-                </div>
-                <ul class="mt-4 space-y-2 text-purple-700 text-sm">
-                    <li>• ${getText('guide.tips.au1')}</li>
-                    <li>• ${getText('guide.tips.au2')}</li>
-                    <li>• ${getText('guide.tips.au3')}</li>
-                    <li>• ${getText('guide.tips.au4')}</li>
-                </ul>
             </div>
 
             <div class="grid md:grid-cols-2 gap-6">
