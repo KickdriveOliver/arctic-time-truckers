@@ -169,8 +169,7 @@ function renderLayout(content, currentPage) {
                                    rel="noopener noreferrer"
                                    class="flex items-center gap-1 opacity-60 hover:opacity-100 transition-opacity"
                                    title="Open-source cat magic on GitHub">
-                                    ${icons.paw.replace('h-6 w-6', 'h-3 w-3 text-amber-500')}
-                                    <span>Made with purrs · Get the source</span>
+                                    🐾 <span>Made with purrs · Get the source</span>
                                 </a>
                             </div>
                             <p class="opacity-70">© ${new Date().getFullYear()} ${getText('app.name')} ${getText('legal.rights')}</p>
@@ -1353,7 +1352,7 @@ function renderImprint() {
                     <h2 class="text-amber-900 text-2xl font-semibold leading-none tracking-tight">${getText('imprint.operatorTitle')}</h2>
                 </div>
                 <div class="p-6 pt-0 space-y-2 text-amber-800">
-                    <p>Kickdrive Software Solutions e.K.</p>
+                    <p>Kickdrive Software Solutions / Oliver Heggelbacher</p>
                     <p>Robert-Bosch-Str. 5</p>
                     <p>88677 Markdorf</p>
                     <p>Germany</p>
