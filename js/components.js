@@ -334,7 +334,7 @@ function renderTimerControls(isRunning, elapsedTime, selectedProject, currentCat
                 
                 <!-- Time Display -->
                 <div class="flex flex-col items-center gap-3 mt-4">
-                    <div class="text-4xl sm:text-6xl md:text-7xl font-mono font-bold text-amber-900 leading-tight">
+                    <div id="timer-display" class="text-4xl sm:text-6xl md:text-7xl font-mono font-bold text-amber-900 leading-tight">
                         ${hours.toString().padStart(2, '0')}<span class="text-amber-700">:</span>${minutes.toString().padStart(2, '0')}<span class="text-amber-700">:</span>${seconds.toString().padStart(2, '0')}
                     </div>
                     

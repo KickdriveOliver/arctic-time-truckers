@@ -346,21 +346,44 @@ function render() {
 // TIMER LOGIC
 // ========================================
 
+// Update only the timer display element without re-rendering the whole page
+function updateTimerDisplay() {
+    const timerDisplayElement = document.getElementById('timer-display');
+    if (!timerDisplayElement) return;
+    
+    const { hours, minutes, seconds } = formatTimeDisplay(appState.elapsedTime);
+    timerDisplayElement.innerHTML = 
+        hours.toString().padStart(2, '0') + '<span class="text-amber-700">:</span>' + 
+        minutes.toString().padStart(2, '0') + '<span class="text-amber-700">:</span>' + 
+        seconds.toString().padStart(2, '0');
+}
+
 function startTimer() {
     if (appState.timerRunning || !appState.selectedProjectId) return;
     
     appState.timerRunning = true;
+    
+    // Start with 60 seconds (1 minute) if starting fresh
+    if (appState.elapsedTime === 0) {
+        appState.elapsedTime = 60;
+    }
+    
     appState.timerStartTime = Date.now() - (appState.elapsedTime * 1000);
     
     // Save timer state to localStorage
     saveTimerState();
     
-    // Start interval - update elapsed time and re-render every second
+    // Start interval - update elapsed time every 10 seconds
+    // Only update the timer display element, not the whole page, to avoid interfering with UI
     appState.timerInterval = setInterval(() => {
         appState.elapsedTime = Math.floor((Date.now() - appState.timerStartTime) / 1000);
         saveTimerState();
-        render();
-    }, 1000);
+        
+        // Only update the display if on Timer page, otherwise just update state silently
+        if (appState.currentPage === 'Timer') {
+            updateTimerDisplay();
+        }
+    }, 10000); // 10 second interval
     
     render();
 }
@@ -482,10 +505,16 @@ function restoreTimerState() {
             appState.elapsedTime = Math.floor((Date.now() - state.startTime) / 1000);
             appState.timerRunning = true;
             
+            // Restart the timer interval with 10-second updates
             appState.timerInterval = setInterval(() => {
                 appState.elapsedTime = Math.floor((Date.now() - appState.timerStartTime) / 1000);
-                updateTimerDisplay();
-            }, 1000);
+                saveTimerState();
+                
+                // Only update the display if on Timer page
+                if (appState.currentPage === 'Timer') {
+                    updateTimerDisplay();
+                }
+            }, 10000); // 10 second interval
         } else {
             appState.elapsedTime = state.elapsed || 0;
         }
