@@ -1516,7 +1516,8 @@ async function handleDeleteProject(projectId) {
 
 function showAddTimeEntryDialog() {
     const projects = appState.projects.filter(p => !p.is_archived);
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date();
+    const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     
     const modalContent = `
         <div class="p-6 max-w-md mx-auto">
@@ -1536,10 +1537,12 @@ function showAddTimeEntryDialog() {
                 
                 <div>
                     <label class="block text-sm font-medium text-amber-800 mb-1">${getText('timer.editLog.date')}</label>
-                    <input type="date" 
+                      <input type="text"
                            name="date" 
-                           value="${today}"
-                           max="${today}"
+                          value="${formatIsoDateForManualEntry(todayIso)}"
+                          placeholder="DD.MM.YYYY"
+                          inputmode="numeric"
+                          autocomplete="off"
                            required
                            class="w-full px-3 py-2 border border-amber-200 rounded-lg" />
                 </div>
@@ -1547,15 +1550,21 @@ function showAddTimeEntryDialog() {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-amber-800 mb-1">${getText('timer.editLog.startTime')}</label>
-                        <input type="time" 
+                           <input type="text"
                                name="start_time" 
+                               placeholder="HH:mm"
+                               inputmode="numeric"
+                               autocomplete="off"
                                required
                                class="w-full px-3 py-2 border border-amber-200 rounded-lg" />
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-amber-800 mb-1">${getText('timer.editLog.endTime')}</label>
-                        <input type="time" 
+                           <input type="text"
                                name="end_time" 
+                               placeholder="HH:mm"
+                               inputmode="numeric"
+                               autocomplete="off"
                                required
                                class="w-full px-3 py-2 border border-amber-200 rounded-lg" />
                     </div>
@@ -1599,9 +1608,21 @@ async function handleAddTimeEntry(e) {
     
     const form = e.target;
     const formData = new FormData(form);
-    
-    const startTime = formData.get('start_time');
-    const endTime = formData.get('end_time');
+    const date = parseManualEntryDate(formData.get('date'));
+    const startTime = normalizeManualEntryTime(formData.get('start_time'));
+    const endTime = normalizeManualEntryTime(formData.get('end_time'));
+
+    if (!date || !startTime || !endTime) {
+        showToast('Enter a valid date (DD.MM.YYYY) and times (HH:mm).', 'error');
+        return;
+    }
+
+    const now = new Date();
+    const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    if (date > todayIso) {
+        showToast('Manual entries cannot be dated in the future.', 'error');
+        return;
+    }
     
     // Calculate duration
     const [startH, startM] = startTime.split(':').map(Number);
@@ -1615,7 +1636,7 @@ async function handleAddTimeEntry(e) {
     const entryData = {
         cat_trucker_id: appState.currentCat.cat_trucker_id,
         project_id: formData.get('project_id'),
-        date: formData.get('date'),
+        date,
         start_time: startTime,
         end_time: endTime,
         duration_minutes: durationMinutes,
@@ -1662,9 +1683,12 @@ function showEditTimeEntryDialog(entryId) {
                 
                 <div>
                     <label class="block text-sm font-medium text-amber-800 mb-1">${getText('timer.editLog.date')}</label>
-                    <input type="date" 
+                      <input type="text"
                            name="date" 
-                           value="${entry.date}"
+                          value="${formatIsoDateForManualEntry(entry.date)}"
+                          placeholder="DD.MM.YYYY"
+                          inputmode="numeric"
+                          autocomplete="off"
                            required
                            class="w-full px-3 py-2 border border-amber-200 rounded-lg" />
                 </div>
@@ -1672,17 +1696,23 @@ function showEditTimeEntryDialog(entryId) {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-amber-800 mb-1">${getText('timer.editLog.startTime')}</label>
-                        <input type="time" 
+                           <input type="text"
                                name="start_time" 
                                value="${entry.start_time || ''}"
+                               placeholder="HH:mm"
+                               inputmode="numeric"
+                               autocomplete="off"
                                required
                                class="w-full px-3 py-2 border border-amber-200 rounded-lg" />
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-amber-800 mb-1">${getText('timer.editLog.endTime')}</label>
-                        <input type="time" 
+                           <input type="text"
                                name="end_time" 
                                value="${entry.end_time || ''}"
+                               placeholder="HH:mm"
+                               inputmode="numeric"
+                               autocomplete="off"
                                required
                                class="w-full px-3 py-2 border border-amber-200 rounded-lg" />
                     </div>
@@ -1733,9 +1763,14 @@ async function handleUpdateTimeEntry(e) {
     const form = e.target;
     const formData = new FormData(form);
     const entryId = formData.get('time_entry_id');
-    
-    const startTime = formData.get('start_time');
-    const endTime = formData.get('end_time');
+    const date = parseManualEntryDate(formData.get('date'));
+    const startTime = normalizeManualEntryTime(formData.get('start_time'));
+    const endTime = normalizeManualEntryTime(formData.get('end_time'));
+
+    if (!date || !startTime || !endTime) {
+        showToast('Enter a valid date (DD.MM.YYYY) and times (HH:mm).', 'error');
+        return;
+    }
     
     // Calculate duration
     const [startH, startM] = startTime.split(':').map(Number);
@@ -1748,7 +1783,7 @@ async function handleUpdateTimeEntry(e) {
     
     const updates = {
         project_id: formData.get('project_id'),
-        date: formData.get('date'),
+        date,
         start_time: startTime,
         end_time: endTime,
         duration_minutes: durationMinutes,

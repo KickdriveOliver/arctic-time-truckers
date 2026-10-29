@@ -99,6 +99,40 @@ function formatTime(timeValue) {
     }
 }
 
+function formatIsoDateForManualEntry(isoDate) {
+    const match = typeof isoDate === 'string' && /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate);
+    if (!match) return '';
+
+    return `${match[3]}.${match[2]}.${match[1]}`;
+}
+
+function parseManualEntryDate(dateValue) {
+    const match = typeof dateValue === 'string' && /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(dateValue.trim());
+    if (!match) return null;
+
+    const day = Number(match[1]);
+    const month = Number(match[2]);
+    const year = Number(match[3]);
+    const date = new Date(year, month - 1, day);
+
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+        return null;
+    }
+
+    return `${match[3]}-${match[2]}-${match[1]}`;
+}
+
+function normalizeManualEntryTime(timeValue) {
+    const match = typeof timeValue === 'string' && /^(\d{1,2}):(\d{2})$/.exec(timeValue.trim());
+    if (!match) return null;
+
+    const hours = Number(match[1]);
+    const minutes = Number(match[2]);
+    if (hours > 23 || minutes > 59) return null;
+
+    return `${String(hours).padStart(2, '0')}:${match[2]}`;
+}
+
 // Format display time for a timer (expects seconds, not milliseconds)
 function formatTimeDisplay(timeInSeconds) {
     const totalSeconds = Math.floor(timeInSeconds);
@@ -351,6 +385,9 @@ window.AVATAR_OPTIONS = AVATAR_OPTIONS;
 window.PROJECT_COLORS = PROJECT_COLORS;
 window.formatDuration = formatDuration;
 window.formatTime = formatTime;
+window.formatIsoDateForManualEntry = formatIsoDateForManualEntry;
+window.parseManualEntryDate = parseManualEntryDate;
+window.normalizeManualEntryTime = normalizeManualEntryTime;
 window.formatTimeDisplay = formatTimeDisplay;
 window.formatDate = formatDate;
 window.formatDateShort = formatDateShort;
